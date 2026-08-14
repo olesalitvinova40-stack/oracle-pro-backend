@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05020a">
+<title>Oracle Pro | Эзотерический Супер-Хаб</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{background:#05020a;overscroll-behavior:none;margin:0;padding:0;}
+body{font-family:'Marcellus',serif;color:#f3e8d8;min-height:100vh;overflow-x:hidden;position:relative;}
+.font-mystic{font-family:'Cinzel',serif;}
+:root{--gold:#ffd700;--amethyst:#9932cc;--bg:#05020a;}
+
+.neon-gold{color:#ffe08a;text-shadow:0 0 4px #ffd700,0 0 14px rgba(255,215,0,.65),0 0 32px rgba(255,215,0,.35);}
+.neon-purple{color:#dcb8ff;text-shadow:0 0 4px #c084fc,0 0 14px rgba(153,50,204,.7),0 0 32px rgba(153,50,204,.4);}
+
+.stars,.stars2,.stars3{position:fixed;inset:-10%;z-index:0;pointer-events:none;background-repeat:repeat;}
+.stars{
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 22%, #fff, transparent),
+    radial-gradient(1.3px 1.3px at 78% 8%, #ffd76a, transparent),
+    radial-gradient(1.6px 1.6px at 58% 66%, #fff, transparent),
+    radial-gradient(1.3px 1.3px at 33% 82%, #d6b4ff, transparent),
+    radial-gradient(1.3px 1.3px at 91% 55%, #fff, transparent),
+    radial-gradient(1.3px 1.3px at 46% 38%, #ffd76a, transparent),
+    radial-gradient(1.3px 1.3px at 18% 52%, #fff, transparent),
+    radial-gradient(1.6px 1.6px at 68% 92%, #fff, transparent),
+    radial-gradient(1.3px 1.3px at 5% 68%, #d6b4ff, transparent),
+    radial-gradient(1.3px 1.3px at 85% 30%, #fff, transparent);
+  background-size:100% 100%;
+  animation:twinkleA 5s ease-in-out infinite alternate;
+}
+.stars2{
+  background-image:
+    radial-gradient(1.2px 1.2px at 25% 15%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 65% 45%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 40% 72%, #ffd76a, transparent),
+    radial-gradient(1.2px 1.2px at 88% 78%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 10% 90%, #d6b4ff, transparent),
+    radial-gradient(1.2px 1.2px at 95% 12%, #fff, transparent);
+  background-size:100% 100%;
+  animation:twinkleB 7s ease-in-out infinite alternate-reverse;
+}
+@keyframes twinkleA{0%{opacity:.35}50%{opacity:.95}100%{opacity:.5}}
+@keyframes twinkleB{0%{opacity:.8}50%{opacity:.25}100%{opacity:.7}}
+
+.nebula{position:fixed;border-radius:9999px;z-index:0;pointer-events:none;filter:blur(46px);mix-blend-mode:screen;}
+.neb-a{width:340px;height:340px;top:-90px;left:-110px;background:radial-gradient(circle,rgba(212,175,55,.55),rgba(212,175,55,0) 70%);animation:nebSpinA 70s linear infinite;}
+.neb-b{width:380px;height:380px;bottom:-140px;right:-120px;background:radial-gradient(circle,rgba(153,50,204,.55),rgba(153,50,204,0) 70%);animation:nebSpinB 90s linear infinite;}
+.neb-c{width:300px;height:300px;top:38%;left:50%;background:radial-gradient(circle,rgba(93,32,140,.4),rgba(93,32,140,0) 70%);animation:nebSpinC 120s linear infinite;}
+@keyframes nebSpinA{0%{transform:rotate(0deg) scale(1);}50%{transform:rotate(180deg) scale(1.25);}100%{transform:rotate(360deg) scale(1);}}
+@keyframes nebSpinB{0%{transform:rotate(0deg) scale(1.1);}50%{transform:rotate(-180deg) scale(.9);}100%{transform:rotate(-360deg) scale(1.1);}}
+@keyframes nebSpinC{0%{transform:translate(-50%,-50%) rotate(0deg) scale(1);}50%{transform:translate(-50%,-50%) rotate(180deg) scale(1.3);}100%{transform:translate(-50%,-50%) rotate(360deg) scale(1);}}
+
+.sacred-overlay{position:fixed;top:50%;left:50%;width:560px;height:560px;margin:-280px 0 0 -280px;z-index:0;pointer-events:none;opacity:.05;animation:sacredSpin 200s linear infinite;}
+@keyframes sacredSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+.vignette{position:fixed;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(0,0,0,.35) 78%, rgba(0,0,0,.7) 100%);}
+
+.screen{position:relative;z-index:10;}
+.hidden{display:none !important;}
+
+.tool-card{position:relative;width:100%;text-align:left;padding:18px;border-radius:20px;border:1px solid rgba(255,215,0,.35);
+  background:linear-gradient(135deg, rgba(48,15,74,.6), rgba(5,2,10,.85));
+  box-shadow:0 0 4px rgba(255,215,0,.25), 0 0 24px rgba(153,50,204,.28), inset 0 0 22px rgba(255,215,0,.05);
+  transition:transform .15s ease, box-shadow .25s ease;overflow:hidden;}
+.tool-card::before{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,215,0,.18), transparent);
+  transform:skewX(-20deg);animation:shimmerSweep 4.5s ease-in-out infinite;}
+.tool-card:active{transform:scale(.96);box-shadow:0 0 8px rgba(255,215,0,.5), 0 0 30px rgba(153,50,204,.5), inset 0 0 22px rgba(255,215,0,.12);}
+@keyframes shimmerSweep{0%{left:-60%;}45%{left:120%;}100%{left:120%;}}
+
+.final-btn{position:relative;overflow:hidden;margin-top:20px;width:100%;padding:15px 0;border-radius:16px;
+  background:linear-gradient(90deg,#fff3c4,#ffd700 45%,#b8860b);color:#1a0a05;font-family:'Cinzel',serif;font-weight:700;
+  letter-spacing:.03em;box-shadow:0 0 6px rgba(255,215,0,.6), 0 0 26px rgba(255,215,0,.55), 0 0 46px rgba(153,50,204,.35);
+  transition:transform .15s ease;border:1px solid rgba(255,255,255,.4);}
+.final-btn::before{content:'';position:absolute;top:0;left:-60%;width:35%;height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,.55), transparent);transform:skewX(-20deg);
+  animation:shimmerSweep 3s ease-in-out infinite;}
+.final-btn:active{transform:scale(.96);}
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:#c9b3e6;font-size:14px;margin-bottom:14px;opacity:.85;letter-spacing:.02em;}
+
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(14px);}100%{opacity:1;transform:translateY(0);}}
+.fade-in-up{animation:fadeInUp .55s ease-out forwards;}
+
+/* ===== TAROT ===== */
+.tarot-slot{width:108px;text-align:center;}
+.slot-frame{position:relative;width:108px;height:174px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  border:2px dashed rgba(255,215,0,.4);box-shadow:0 0 16px rgba(153,50,204,.25) inset, 0 0 10px rgba(255,215,0,.15);
+  animation:slotPulse 2.6s ease-in-out infinite;background:radial-gradient(circle at 50% 40%, rgba(153,50,204,.08), transparent 70%);}
+@keyframes slotPulse{0%,100%{box-shadow:0 0 16px rgba(153,50,204,.22) inset, 0 0 8px rgba(255,215,0,.12);}50%{box-shadow:0 0 26px rgba(153,50,204,.4) inset, 0 0 18px rgba(255,215,0,.3);}}
+.slot-frame.filled{border:none;animation:none;box-shadow:none;background:none;}
+.slot-frame .slot-index{font-family:'Cinzel',serif;color:rgba(214,180,255,.4);font-size:26px;}
+.slot-role{margin-top:8px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.06em;color:#dcb8ff;min-height:14px;opacity:.9;}
+
+#tarot-pool{position:relative;height:184px;margin-top:6px;}
+.pool-card{position:absolute;left:50%;top:24px;margin-left:-40px;width:80px;height:128px;transform:translate(0,0) rotate(0deg);cursor:pointer;}
+.pool-card.shuffling{animation:poolShuffle 1.9s cubic-bezier(.32,.6,.25,1) 1 forwards;}
+@keyframes poolShuffle{
+  0%{transform:translate(0,0) rotate(0deg);}
+  22%{transform:translate(var(--sx0),var(--sy0)) rotate(var(--sr0));}
+  50%{transform:translate(var(--sx1),var(--sy1)) rotate(var(--sr1));}
+  75%{transform:translate(var(--sx2),var(--sy2)) rotate(var(--sr2));}
+  100%{transform:translate(var(--tx),var(--ty)) rotate(var(--rot));}
+}
+.pool-card[data-picked="1"]{visibility:hidden;}
+
+.tarot-card{perspective:1300px;}
+.card-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d;}
+.card-inner.flipped{transform:rotateY(180deg);}
+.card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.55);}
+.card-back{background:radial-gradient(circle at 50% 28%,#2a0a4a,#0b0316 78%);border:2px solid #d4af37;
+  box-shadow:0 0 16px rgba(212,175,55,.45), inset 0 0 18px rgba(212,175,55,.15);}
+.card-front{background:radial-gradient(circle at 50% 16%,#26073f,#08020f 82%);border:2px solid #d4af37;
+  transform:rotateY(180deg);box-shadow:0 0 22px rgba(214,180,255,.55), inset 0 0 16px rgba(212,175,55,.2);}
+.card-art{width:100%;height:100%;display:block;}
+
+.fly-arc{animation:flyArc .85s ease-out 1;}
+@keyframes flyArc{0%{filter:drop-shadow(0 0 0 rgba(255,215,0,0));}30%{filter:drop-shadow(0 6px 18px rgba(255,215,0,.55));}100%{filter:drop-shadow(0 2px 10px rgba(153,50,204,.4));}}
+
+#tarot-summary{margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,215,0,.3);
+  background:linear-gradient(160deg, rgba(38,10,60,.6), rgba(5,2,10,.7));font-size:13px;line-height:1.6;}
+#tarot-summary .sum-line{margin-bottom:6px;}
+#tarot-summary .sum-line b{color:#ffe08a;}
+
+/* ===== RUNES ===== */
+#rune-scene{position:relative;height:330px;margin-top:6px;}
+.altar-slab{position:absolute;left:50%;bottom:36px;width:220px;height:66px;margin-left:-110px;border-radius:50% 50% 18% 18% / 70% 70% 30% 30%;
+  background:radial-gradient(ellipse at 40% 25%, #3a2a52, #170c28 78%);border:1px solid rgba(255,215,0,.25);
+  box-shadow:0 10px 26px rgba(0,0,0,.6), inset 0 0 20px rgba(153,50,204,.25);}
+.altar-slab::before{content:'';position:absolute;left:20px;right:20px;top:-14px;height:24px;border-radius:50%;
+  background:radial-gradient(ellipse, rgba(255,215,0,.12), transparent 70%);}
+#rune-altar-slot{position:absolute;left:50%;bottom:60px;width:78px;height:66px;margin-left:-39px;border-radius:50%;
+  border:2px dashed rgba(255,215,0,.4);box-shadow:0 0 18px rgba(153,50,204,.3) inset;animation:slotPulse 2.6s ease-in-out infinite;}
+.stone-icon{position:absolute;width:64px;height:56px;top:14px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));transition:top .75s cubic-bezier(.22,1.6,.36,1), left .5s ease, opacity .5s ease, transform .5s ease;}
+.stone-icon.shake{animation:stoneShake .38s ease-in-out infinite;}
+@keyframes stoneShake{0%,100%{transform:rotate(0deg) translateX(0);}25%{transform:rotate(-9deg) translateX(-3px);}50%{transform:rotate(8deg) translateX(3px);}75%{transform:rotate(-6deg) translateX(-2px);}}
+.stone-icon.discard{opacity:0;transform:translateY(-40px) scale(.5) rotate(30deg);}
+.stone-icon.landed{filter:drop-shadow(0 0 10px rgba(255,215,0,.65)) drop-shadow(0 0 18px rgba(153,50,204,.55));}
+.flame-burst{position:absolute;width:16px;height:16px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, rgba(255,225,140,1) 0%, rgba(255,180,60,.85) 25%, rgba(153,50,204,.7) 55%, transparent 75%);
+  mix-blend-mode:screen;transform:translate(-50%,-50%) scale(0);opacity:1;animation:flameBurst .7s ease-out forwards;}
+@keyframes flameBurst{0%{transform:translate(-50%,-50%) scale(0);opacity:1;}60%{opacity:.9;}100%{transform:translate(-50%,-50%) scale(11);opacity:0;}}
+#rune-result-text{opacity:0;transition:opacity .6s ease .1s;}
+#rune-result-text.show{opacity:1;}
+
+/* ===== BALL ===== */
+.ball-orb-wrap{position:relative;width:250px;height:250px;}
+.ball-orb{position:relative;width:100%;height:100%;border-radius:9999px;overflow:hidden;cursor:pointer;
+  border:2px solid rgba(212,175,55,.55);
+  background:radial-gradient(circle at 35% 28%, #ecd9ff 0%, #b06bff 20%, #6d28d9 52%, #22093f 100%);
+  box-shadow:0 0 10px rgba(168,85,247,.4), 0 0 40px 6px rgba(168,85,247,.4), inset -16px -16px 34px rgba(0,0,0,.5), inset 12px 12px 26px rgba(255,255,255,.2);
+  transition:box-shadow .4s ease;}
+.ball-orb.surge{animation:ballSurge 1s ease-in-out 1;}
+@keyframes ballSurge{
+  0%{box-shadow:0 0 10px rgba(168,85,247,.4), 0 0 40px 6px rgba(168,85,247,.4), inset -16px -16px 34px rgba(0,0,0,.5), inset 12px 12px 26px rgba(255,255,255,.2);}
+  40%{box-shadow:0 0 24px rgba(255,215,0,.5), 0 0 90px 26px rgba(168,85,247,.9), inset -16px -16px 34px rgba(0,0,0,.5), inset 12px 12px 26px rgba(255,255,255,.35);}
+  100%{box-shadow:0 0 16px rgba(168,85,247,.5), 0 0 60px 14px rgba(168,85,247,.6), inset -16px -16px 34px rgba(0,0,0,.5), inset 12px 12px 26px rgba(255,255,255,.22);}
+}
+.smoke-blob{position:absolute;border-radius:9999px;filter:blur(14px);mix-blend-mode:screen;opacity:.75;}
+.smoke-a{width:150px;height:150px;left:10%;top:30%;background:radial-gradient(circle,#c084fc,transparent 70%);animation:smokeDrift1 7s ease-in-out infinite alternate;}
+.smoke-b{width:130px;height:130px;left:45%;top:10%;background:radial-gradient(circle,#7e22ce,transparent 70%);animation:smokeDrift2 9s ease-in-out infinite alternate;}
+.smoke-c{width:120px;height:120px;left:30%;top:50%;background:radial-gradient(circle,#e9d5ff,transparent 70%);animation:smokeDrift3 6s ease-in-out infinite alternate;}
+.smoke-d{width:100px;height:100px;left:55%;top:55%;background:radial-gradient(circle,#5b21b6,transparent 70%);animation:smokeDrift1 8s ease-in-out infinite alternate-reverse;}
+@keyframes smokeDrift1{0%{transform:translate(0,0) scale(1);}100%{transform:translate(22px,-16px) scale(1.25);}}
+@keyframes smokeDrift2{0%{transform:translate(0,0) scale(1);}100%{transform:translate(-18px,20px) scale(.85);}}
+@keyframes smokeDrift3{0%{transform:translate(0,0) scale(1);}100%{transform:translate(14px,18px) scale(1.15);}}
+.smoke-blob.surging{animation-duration:1.1s !important;}
+.smoke-blob.parting{opacity:.12;transition:opacity .8s ease, transform .8s ease;}
+.smoke-blob.parting.smoke-a{transform:translate(-60px,-30px) scale(1.4);}
+.smoke-blob.parting.smoke-b{transform:translate(60px,-20px) scale(1.4);}
+.smoke-blob.parting.smoke-c{transform:translate(-40px,50px) scale(1.4);}
+.smoke-blob.parting.smoke-d{transform:translate(50px,45px) scale(1.4);}
+.sparkle{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffe9a8;box-shadow:0 0 6px 1px #ffd700;animation:sparkleTwinkle 2.4s ease-in-out infinite;}
+@keyframes sparkleTwinkle{0%,100%{opacity:0;transform:scale(.4);}50%{opacity:1;transform:scale(1.2);}}
+#ball-triangle{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.4);width:70%;height:70%;
+  clip-path:polygon(50% 4%,6% 96%,94% 96%);background:linear-gradient(160deg,rgba(30,10,60,.92),rgba(8,2,15,.96));
+  border:1px solid rgba(255,215,0,.65);display:flex;align-items:flex-end;justify-content:center;padding-bottom:16%;
+  text-align:center;color:#ffe9a8;font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:.02em;
+  filter:drop-shadow(0 0 8px rgba(255,215,0,.6)) drop-shadow(0 0 16px rgba(153,50,204,.6));opacity:0;pointer-events:none;}
+#ball-triangle.tri-reveal{animation:triRise .7s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes triRise{0%{opacity:0;transform:translate(-50%,-40%) scale(.35);}100%{opacity:1;transform:translate(-50%,-50%) scale(1);}}
+</style>
+</head>
+<body class="relative">
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="nebula neb-a"></div>
+<div class="nebula neb-b"></div>
+<div class="nebula neb-c"></div>
+<svg class="sacred-overlay" viewBox="0 0 200 200"><g fill="none" stroke="#ffd700" stroke-width=".6">
+<circle cx="100" cy="100" r="24"/><circle cx="100" cy="76" r="24"/><circle cx="100" cy="124" r="24"/>
+<circle cx="79.2" cy="88" r="24"/><circle cx="79.2" cy="112" r="24"/><circle cx="120.8" cy="88" r="24"/><circle cx="120.8" cy="112" r="24"/>
+<circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="48"/></g></svg>
+<div class="vignette"></div>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
+<defs id="sprite-defs">
+<radialGradient id="stoneGrad" cx="35%" cy="28%" r="85%">
+  <stop offset="0%" stop-color="#4a3a68"/><stop offset="55%" stop-color="#2a1f42"/><stop offset="100%" stop-color="#140b26"/>
+</radialGradient>
+</defs>
+</svg>
+
+<div id="app" class="relative z-10" style="max-width:448px;margin:0 auto;padding:26px 20px 48px;min-height:100vh;">
+
+<section id="screen-menu" class="screen">
+  <h1 class="font-mystic text-center neon-gold" style="font-size:32px;font-weight:700;letter-spacing:.03em;margin:0 0 2px;">✨ Oracle Pro</h1>
+  <p class="text-center" style="color:rgba(214,180,255,.65);font-size:13px;letter-spacing:.08em;margin:0 0 22px;">ЭЗОТЕРИЧЕСКИЙ СУПЕР-ХАБ</p>
+
+  <div style="border-radius:20px;border:1px solid rgba(255,215,0,.4);background:linear-gradient(160deg, rgba(48,15,74,.65), rgba(5,2,10,.85));
+    padding:18px 18px 20px;margin-bottom:26px;box-shadow:0 0 30px rgba(255,215,0,.2), inset 0 0 24px rgba(153,50,204,.12);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <span class="font-mystic neon-gold" style="font-size:13px;letter-spacing:.06em;">🌟 СОВЕТ ДНЯ ОТ ИИ</span>
+      <button id="advice-refresh" style="background:none;border:none;color:#dcb8ff;font-size:16px;">🔄</button>
+    </div>
+    <p id="advice-text" style="font-size:15px;line-height:1.6;color:rgba(255,235,200,.92);font-style:italic;margin:0;"></p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <button data-tool="tarot" class="tool-card">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:34px;">🔮</div>
+        <div>
+          <div class="font-mystic neon-purple" style="font-size:18px;">Карты Таро</div>
+          <div style="font-size:12px;color:rgba(214,180,255,.6);margin-top:2px;">Расклад на Любовь, Деньги или Ситуацию</div>
+        </div>
+      </div>
+    </button>
+    <button data-tool="runes" class="tool-card">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:34px;">⚡</div>
+        <div>
+          <div class="font-mystic neon-purple" style="font-size:18px;">Древние Руны</div>
+          <div style="font-size:12px;color:rgba(214,180,255,.6);margin-top:2px;">Предсказание по каменной руне</div>
+        </div>
+      </div>
+    </button>
+    <button data-tool="ball" class="tool-card">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:34px;">🎱</div>
+        <div>
+          <div class="font-mystic neon-purple" style="font-size:18px;">Магический Шар</div>
+          <div style="font-size:12px;color:rgba(214,180,255,.6);margin-top:2px;">Быстрый ответ Да / Нет</div>
+        </div>
+      </div>
+    </button>
+  </div>
+</section>
+
+<section id="screen-tarot-spread" class="screen hidden">
+  <div class="back-btn" data-back="menu">← Назад</div>
+  <h2 class="font-mystic neon-gold" style="font-size:20px;text-align:center;margin:22px 0 26px;">Выбери расклад судьбы</h2>
+  <div style="display:flex;flex-direction:column;gap:14px;">
+    <button data-spread="love" class="tool-card" style="text-align:center;">
+      <div style="font-size:28px;margin-bottom:4px;">💖</div>
+      <div class="font-mystic neon-purple">На Любовь</div>
+    </button>
+    <button data-spread="money" class="tool-card" style="text-align:center;">
+      <div style="font-size:28px;margin-bottom:4px;">💰</div>
+      <div class="font-mystic neon-purple">На Деньги</div>
+    </button>
+    <button data-spread="situation" class="tool-card" style="text-align:center;">
+      <div style="font-size:28px;margin-bottom:4px;">🌌</div>
+      <div class="font-mystic neon-purple">На Ситуацию</div>
+    </button>
+  </div>
+</section>
+
+<section id="screen-tarot-table" class="screen hidden">
+  <div class="back-btn" data-back="menu">← Назад</div>
+  <h2 id="tarot-spread-title" class="font-mystic neon-gold" style="font-size:19px;text-align:center;margin:4px 0 20px;"></h2>
+
+  <div id="tarot-slots" style="display:flex;justify-content:center;gap:8px;margin-bottom:18px;">
+    <div class="tarot-slot" data-slot="0"><div class="slot-frame"><span class="slot-index">1</span></div><div class="slot-role"></div></div>
+    <div class="tarot-slot" data-slot="1"><div class="slot-frame"><span class="slot-index">2</span></div><div class="slot-role"></div></div>
+    <div class="tarot-slot" data-slot="2"><div class="slot-frame"><span class="slot-index">3</span></div><div class="slot-role"></div></div>
+  </div>
+
+  <div style="display:flex;justify-content:center;">
+    <button id="tarot-shuffle-btn" class="final-btn" style="max-width:280px;">🌀 Перемешать колоду</button>
+  </div>
+  <p id="tarot-instruction" class="hidden fade-in-up" style="text-align:center;font-size:12.5px;color:rgba(214,180,255,.7);margin:14px 0 0;">
+    Коснись 3 разных карт, чтобы узнать судьбу — выбрано <span id="tarot-pick-count">0</span> из 3
+  </p>
+  <div id="tarot-pool"></div>
+
+  <div id="tarot-summary" class="hidden fade-in-up"></div>
+  <div style="display:flex;justify-content:center;">
+    <button id="tarot-final-btn" class="hidden final-btn fade-in-up" style="max-width:320px;">✨ Получить ИИ-толкование</button>
+  </div>
+</section>
+
+<section id="screen-runes" class="screen hidden" style="display:flex;flex-direction:column;align-items:center;">
+  <div class="back-btn" style="align-self:flex-start;" data-back="menu">← Назад</div>
+  <h2 class="font-mystic neon-gold" style="font-size:19px;text-align:center;margin:6px 0 4px;">Каменный Алтарь Рун</h2>
+  <p style="text-align:center;font-size:12.5px;color:rgba(214,180,255,.6);margin:0 0 6px;">Брось руны и позволь судьбе выбрать одну из них</p>
+
+  <div id="rune-scene">
+    <div class="altar-slab"></div>
+    <div id="rune-altar-slot"></div>
+  </div>
+
+  <div id="rune-result" class="hidden" style="text-align:center;margin-top:-28px;">
+    <div id="rune-result-text">
+      <div id="rune-name" class="font-mystic neon-purple" style="font-size:19px;margin-bottom:6px;"></div>
+      <div id="rune-meaning" style="font-size:13.5px;line-height:1.6;color:rgba(255,235,200,.85);padding:0 12px;"></div>
+    </div>
+  </div>
+
+  <button id="rune-draw-btn" class="final-btn" style="max-width:260px;">🔮 Бросить руны</button>
+  <button id="rune-final-btn" class="hidden final-btn fade-in-up" style="max-width:260px;">⚡ Толкование Руны</button>
+</section>
+
+<section id="screen-ball" class="screen hidden" style="display:flex;flex-direction:column;align-items:center;">
+  <div class="back-btn" style="align-self:flex-start;" data-back="menu">← Назад</div>
+  <h2 class="font-mystic neon-gold" style="font-size:19px;text-align:center;margin:6px 0 4px;">Магический Шар Судьбы</h2>
+  <p style="text-align:center;font-size:12.5px;color:rgba(214,180,255,.6);margin:0 0 22px;padding:0 20px;">Задай вопрос мысленно и коснись шара</p>
+
+  <div class="ball-orb-wrap">
+    <div id="ball-orb" class="ball-orb">
+      <div class="smoke-blob smoke-a"></div>
+      <div class="smoke-blob smoke-b"></div>
+      <div class="smoke-blob smoke-c"></div>
+      <div class="smoke-blob smoke-d"></div>
+      <div class="sparkle" style="left:30%;top:24%;animation-delay:0s;"></div>
+      <div class="sparkle" style="left:62%;top:34%;animation-delay:.5s;"></div>
+      <div class="sparkle" style="left:44%;top:60%;animation-delay:1s;"></div>
+      <div class="sparkle" style="left:70%;top:68%;animation-delay:1.5s;"></div>
+      <div class="sparkle" style="left:22%;top:55%;animation-delay:.9s;"></div>
+      <div id="ball-triangle"></div>
+    </div>
+  </div>
+
+  <button id="ball-final-btn" class="hidden final-btn fade-in-up" style="max-width:300px;margin-top:26px;">🎱 Получить ИИ-толкование</button>
+</section>
+
+</div>
+
+<script>
+const ARCANA = [
+  { id:'magician', name:'Маг', short:'МАГ', numeral:'I',
+    love:'Ты сам создаёшь свою любовь — действуй смело и открыто.',
+    money:'У тебя есть все инструменты для успеха — используй их сейчас.',
+    situation:'У тебя есть сила и ресурсы изменить ситуацию прямо сейчас.' },
+  { id:'fool', name:'Шут', short:'ШУТ', numeral:'0',
+    love:'Новое чувство начинается со свободы и доверия моменту.',
+    money:'Рискни — неожиданный путь принесёт неожиданную прибыль.',
+    situation:'Сделай шаг в неизвестность без страха — начало уже началось.' },
+  { id:'wheel', name:'Колесо Фортуны', short:'КОЛЕСО', numeral:'X',
+    love:'Судьба поворачивается — перемены в отношениях уже близко.',
+    money:'Цикл удачи возвращается к тебе, не упусти момент.',
+    situation:'Колесо перемен уже в движении — прими происходящее.' },
+  { id:'justice', name:'Правосудие', short:'ВЕСЫ', numeral:'XI',
+    love:'Честность и баланс восстановят гармонию в отношениях.',
+    money:'Справедливое решение принесёт долгожданную стабильность.',
+    situation:'Ищи истину и действуй по совести — весы качнутся в твою пользу.' }
+];
+
+const SPREAD_TITLES = { love:'💖 Расклад на Любовь', money:'💰 Расклад на Деньги', situation:'🌌 Расклад на Ситуацию' };
+const SPREAD_ROLES = {
+  love:['Мысли','Чувства','Будущее'],
+  money:['Ресурсы','Преграда','Итог'],
+  situation:['Ситуация','Препятствие','Совет']
+};
+
+const RUNES = [
+  { id:'fehu', char:'ᚠ', name:'Феху', meaning:'Богатство, изобилие и новые начинания уже в пути к тебе.' },
+  { id:'uruz', char:'ᚢ', name:'Уруз', meaning:'Сила воли и первобытная энергия помогут преодолеть любые препятствия.' },
+  { id:'thurisaz', char:'ᚦ', name:'Турисаз', meaning:'Защита и внутренняя стойкость проведут тебя через любые испытания.' }
+];
+
+const BALL_ANSWERS = [
+  {id:'yes_definitely', text:'Да, однозначно'},
+  {id:'no_not_now', text:'Нет, не сейчас'},
+  {id:'signs_yes', text:'Знаки говорят — да'},
+  {id:'doubtful', text:'Весьма сомнительно'},
+  {id:'ask_later', text:'Спроси позже'},
+  {id:'yes_certain', text:'Определённо да'},
+  {id:'answer_no', text:'Мой ответ — нет'},
+  {id:'anything_possible', text:'Всё возможно'},
+  {id:'trust_fate', text:'Доверься судьбе'},
+  {id:'unclear', text:'Пока не ясно'}
+];
+
+const ADVICE = [
+  'Сегодня вселенная благосклонна к смелым решениям.',
+  'Прислушайся к своей интуиции — она знает больше, чем разум.',
+  'Перемены, которых ты ждёшь, уже в пути.',
+  'Отпусти то, что держит тебя в прошлом.',
+  'Твоя энергия сегодня притягивает нужных людей.',
+  'Маленький шаг сегодня изменит твой путь навсегда.',
+  'Звёзды советуют довериться моменту.',
+  'Сегодняшний день дарит ясность в делах сердца.',
+  'Финансовая удача благоволит терпеливым.',
+  'Твой внутренний свет освещает путь другим.'
+];
+
+function $(sel){ return document.querySelector(sel); }
+function $all(sel){ return document.querySelectorAll(sel); }
+
+function polar(cx, cy, r, deg){
+  const rad = (deg - 90) * Math.PI / 180;
+  return [ +(cx + r*Math.cos(rad)).toFixed(2), +(cy + r*Math.sin(rad)).toFixed(2) ];
+}
+function radialLines(cx, cy, r1, r2, count, cls, offsetDeg){
+  offsetDeg = offsetDeg || 0;
+  let out = '';
+  for(let i=0;i<count;i++){
+    const deg = (360/count)*i + offsetDeg;
+    const p1 = polar(cx,cy,r1,deg);
+    const p2 = polar(cx,cy,r2,deg);
+    out += '<line x1="'+p1[0]+'" y1="'+p1[1]+'" x2="'+p2[0]+'" y2="'+p2[1]+'" class="'+cls+'"/>';
+  }
+  return out;
+}
+function flowerOfLife(cx, cy, r, cls){
+  let out = '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" class="'+cls+'"/>';
+  for(let i=0;i<6;i++){
+    const p = polar(cx,cy,r,60*i);
+    out += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" class="'+cls+'"/>';
+  }
+  return out;
+}
+function moonRow(cx, cy, count, r, gap){
+  let out = '';
+  const startX = cx - ((count-1)*gap)/2;
+  for(let i=0;i<count;i++){
+    const f = i/(count-1);
+    const x = +(startX + i*gap).toFixed(2);
+    const w = +(2*r*f).toFixed(2);
+    out += '<g><clipPath id="mphase'+i+'"><rect x="'+(x-r).toFixed(2)+'" y="'+(cy-r).toFixed(2)+'" width="'+w+'" height="'+(2*r)+'"/></clipPath>'
+      + '<circle cx="'+x+'" cy="'+cy+'" r="'+r+'" class="moon-fill" clip-path="url(#mphase'+i+')"/>'
+      + '<circle cx="'+x+'" cy="'+cy+'" r="'+r+'" class="moon-ring"/></g>';
+  }
+  return out;
+}
+function spiralPath(cx, cy, turns, rStart, rEnd, steps){
+  let d = '';
+  for(let i=0;i<=steps;i++){
+    const t = i/steps;
+    const r = rStart + (rEnd-rStart)*t;
+    const deg = 360*turns*t;
+    const p = polar(cx,cy,r,deg);
+    d += (i===0?'M':'L') + p[0] + ',' + p[1] + ' ';
+  }
+  return '<path d="'+d.trim()+'" class="line-thin"/>';
+}
+function cardLabel(numeral, name){
+  return '<text x="70" y="17" text-anchor="middle" class="card-label-numeral">'+numeral+'</text>'
+    + '<text x="70" y="208" text-anchor="middle" class="card-label-name">'+name+'</text>';
+}
+
+function cardBackArt(){
+  let s = '';
+  s += '<rect x="5" y="5" width="130" height="210" rx="12" class="frame-outer"/>';
+  s += '<rect x="11" y="11" width="118" height="198" rx="9" class="frame-inner"/>';
+  s += flowerOfLife(70, 130, 15, 'sacred-line');
+  s += moonRow(70, 40, 7, 5, 14);
+  s += radialLines(70, 130, 58, 66, 24, 'ray-fine');
+  s += '<path d="M20,26 C34,14 40,30 30,38 C46,30 40,14 54,24" class="flourish"/>';
+  s += '<path d="M120,196 C106,208 100,192 110,184 C94,192 100,208 86,198" class="flourish"/>';
+  s += '<path d="M20,196 C34,208 40,192 30,184 C46,192 40,208 54,198" class="flourish"/>';
+  s += '<path d="M120,26 C106,14 100,30 110,38 C94,30 100,14 86,24" class="flourish"/>';
+  s += '<circle cx="70" cy="130" r="3" class="core-dot"/>';
+  return s;
+}
+
+function magicianArt(){
+  let s = '';
+  s += radialLines(70,72,13,21,16,'aura-ray');
+  s += '<circle cx="70" cy="72" r="10" class="line-med"/>';
+  s += '<circle cx="64" cy="49" r="6" class="line-thin"/><circle cx="76" cy="49" r="6" class="line-thin"/>';
+  s += '<path d="M50,86 L90,86 L102,190 L38,190 Z" class="robe-shape"/>';
+  s += '<line x1="86" y1="90" x2="106" y2="58" class="line-med"/>';
+  s += '<polygon points="106,50 109,58 117,58 111,63 113,71 106,66 99,71 101,63 95,58 103,58" class="star-fill"/>';
+  s += '<line x1="54" y1="90" x2="40" y2="114" class="line-med"/>';
+  s += '<line x1="55" y1="120" x2="85" y2="120" class="line-thin"/><circle cx="70" cy="120" r="3" class="line-thin"/>';
+  s += '<line x1="45" y1="170" x2="95" y2="170" class="line-med"/>';
+  s += '<path d="M56,166 q4,8 8,0" class="line-thin"/>';
+  s += '<line x1="68" y1="156" x2="68" y2="166" class="line-thin"/><circle cx="68" cy="154" r="2" class="line-thin"/>';
+  s += '<line x1="80" y1="154" x2="80" y2="168" class="line-thin"/><polygon points="80,148 84,154 80,160 76,154" class="line-thin"/>';
+  s += '<circle cx="92" cy="161" r="5" class="line-thin"/><line x1="88" y1="161" x2="96" y2="161" class="line-thin"/><line x1="92" y1="157" x2="92" y2="165" class="line-thin"/>';
+  return s;
+}
+function foolArt(){
+  let s = '';
+  s += radialLines(104,44,14,23,12,'ray-fine');
+  s += '<circle cx="104" cy="44" r="9" class="line-med"/><circle cx="104" cy="44" r="3.5" class="star-fill"/>';
+  s += '<path d="M10,190 L38,190 L45,176 L58,192 L78,178 L94,192 L130,186" class="line-med"/>';
+  s += '<circle cx="49" cy="140" r="7" class="line-med"/>';
+  s += '<path d="M42,150 L58,150 L64,188 L34,188 Z" class="robe-shape"/>';
+  s += '<line x1="50" y1="187" x2="66" y2="172" class="line-thin"/>';
+  s += '<line x1="46" y1="187" x2="40" y2="197" class="line-thin"/>';
+  s += '<line x1="57" y1="155" x2="80" y2="118" class="line-med"/><line x1="80" y1="118" x2="97" y2="103" class="line-thin"/>';
+  s += '<circle cx="97" cy="101" r="5" class="line-thin"/>';
+  s += '<ellipse cx="27" cy="196" rx="8" ry="5" class="line-thin"/><polygon points="20,192 24,185 27,192" class="line-thin"/>';
+  s += spiralPath(102,152,2.2,2,16,40);
+  return s;
+}
+function wheelArt(){
+  let s = '';
+  s += '<circle cx="70" cy="118" r="42" class="line-med"/>';
+  s += '<circle cx="70" cy="118" r="34" class="line-thin"/>';
+  s += radialLines(70,118,44,55,16,'ray-fine');
+  s += radialLines(70,118,7,34,8,'line-thin');
+  s += '<circle cx="70" cy="118" r="6" class="line-med"/><circle cx="70" cy="118" r="2" class="star-fill"/>';
+  s += '<polygon points="65,66 70,52 75,66" class="line-thin"/><circle cx="70" cy="60" r="3" class="line-thin"/>';
+  s += '<path d="M36,152 C26,142 46,137 39,127 C31,120 46,114 41,104" class="line-thin"/>';
+  const marks = [0,90,180,270];
+  marks.forEach(function(deg,i){
+    const p = polar(70,118,38,deg);
+    if(i===0) s += '<polygon points="'+(p[0]-3)+','+(p[1]+3)+' '+p[0]+','+(p[1]-4)+' '+(p[0]+3)+','+(p[1]+3)+'" class="line-thin"/>';
+    if(i===1) s += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.4" class="line-thin"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="1" class="star-fill"/>';
+    if(i===2) s += '<polygon points="'+(p[0]-3)+','+(p[1]-3)+' '+p[0]+','+(p[1]+4)+' '+(p[0]+3)+','+(p[1]-3)+'" class="line-thin"/>';
+    if(i===3) s += '<path d="M'+(p[0]+4)+','+(p[1]-3)+' A4,4 0 1,0 '+(p[0]+4)+','+(p[1]+5)+'" class="line-thin"/>';
+  });
+  return s;
+}
+function justiceArt(){
+  let s = '';
+  s += '<rect x="30" y="60" width="8" height="128" class="line-thin" fill="rgba(153,50,204,.08)"/>';
+  s += '<rect x="102" y="60" width="8" height="128" class="line-thin" fill="rgba(153,50,204,.08)"/>';
+  s += '<line x1="24" y1="58" x2="44" y2="58" class="line-med"/><line x1="96" y1="58" x2="116" y2="58" class="line-med"/>';
+  s += '<line x1="30" y1="188" x2="118" y2="188" class="line-med"/>';
+  s += '<path d="M55,122 L85,122 L95,185 L45,185 Z" class="robe-shape"/>';
+  s += '<circle cx="70" cy="109" r="9" class="line-med"/>';
+  s += '<polygon points="60,96 65,84 70,92 75,84 80,96" class="line-thin"/>';
+  s += '<line x1="40" y1="70" x2="100" y2="70" class="line-med"/>';
+  s += '<line x1="70" y1="62" x2="70" y2="70" class="line-thin"/><circle cx="70" cy="68" r="2" class="star-fill"/>';
+  s += '<line x1="40" y1="70" x2="34" y2="82" class="line-thin"/><line x1="40" y1="70" x2="46" y2="82" class="line-thin"/><line x1="34" y1="82" x2="46" y2="82" class="line-thin"/>';
+  s += '<line x1="100" y1="70" x2="94" y2="82" class="line-thin"/><line x1="100" y1="70" x2="106" y2="82" class="line-thin"/><line x1="94" y1="82" x2="106" y2="82" class="line-thin"/>';
+  s += '<polygon points="70,36 74,118 66,118" class="line-med"/>';
+  s += '<line x1="58" y1="120" x2="82" y2="120" class="line-med"/>';
+  s += '<line x1="70" y1="120" x2="70" y2="138" class="line-med"/><circle cx="70" cy="141" r="3" class="star-fill"/>';
+  s += '<circle cx="50" cy="100" r="1.3" class="star-fill"/><circle cx="90" cy="100" r="1.3" class="star-fill"/>';
+  return s;
+}
+function stoneArt(rune){
+  let s = '';
+  s += '<path d="M8,52 Q4,28 24,14 Q46,1 66,11 Q86,20 83,44 Q87,66 60,73 Q28,79 8,52 Z" class="stone-shape"/>';
+  s += '<ellipse cx="42" cy="26" rx="26" ry="9" class="stone-highlight"/>';
+  s += '<ellipse cx="52" cy="58" rx="26" ry="9" class="stone-shadow"/>';
+  s += '<path d="M20,22 L26,32 M62,18 L57,28 M28,56 L34,49 M66,50 L59,58" class="stone-crack"/>';
+  if(rune){
+    s += '<text x="46" y="49" text-anchor="middle" class="rune-carve-shadow">'+rune+'</text>';
+    s += '<text x="45" y="47" text-anchor="middle" class="rune-carve-glow">'+rune+'</text>';
+  }
+  return s;
+}
+
+function buildSprite(){
+  const html =
+    '<symbol id="ic-cardback" viewBox="0 0 140 220">'+cardBackArt()+'</symbol>'+
+    '<symbol id="ic-magician" viewBox="0 0 140 220">'+magicianArt()+cardLabel('I','МАГ')+'</symbol>'+
+    '<symbol id="ic-fool" viewBox="0 0 140 220">'+foolArt()+cardLabel('0','ШУТ')+'</symbol>'+
+    '<symbol id="ic-wheel" viewBox="0 0 140 220">'+wheelArt()+cardLabel('X','КОЛЕСО ФОРТУНЫ')+'</symbol>'+
+    '<symbol id="ic-justice" viewBox="0 0 140 220">'+justiceArt()+cardLabel('XI','ПРАВОСУДИЕ')+'</symbol>'+
+    '<symbol id="ic-stone-blank" viewBox="0 0 90 78">'+stoneArt(null)+'</symbol>'+
+    '<symbol id="ic-stone-fehu" viewBox="0 0 90 78">'+stoneArt('ᚠ')+'</symbol>'+
+    '<symbol id="ic-stone-uruz" viewBox="0 0 90 78">'+stoneArt('ᚢ')+'</symbol>'+
+    '<symbol id="ic-stone-thurisaz" viewBox="0 0 90 78">'+stoneArt('ᚦ')+'</symbol>';
+  $('#sprite-defs').insertAdjacentHTML('beforeend', html);
+  const styleEl = document.createElement('style');
+  styleEl.textContent =
+    '.frame-outer{fill:none;stroke:#ffd700;stroke-width:1.4;}'+
+    '.frame-inner{fill:none;stroke:#ffd700;stroke-width:.7;opacity:.7;}'+
+    '.sacred-line{fill:none;stroke:#ffd700;stroke-width:.6;opacity:.5;}'+
+    '.moon-fill{fill:#ffd700;}'+
+    '.moon-ring{fill:none;stroke:#ffd700;stroke-width:.6;opacity:.75;}'+
+    '.ray-fine{stroke:#ffd700;stroke-width:.4;opacity:.35;}'+
+    '.flourish{fill:none;stroke:#ffd700;stroke-width:1;opacity:.6;}'+
+    '.core-dot{fill:#ffd700;}'+
+    '.aura-ray{stroke:#9932cc;stroke-width:.6;opacity:.5;}'+
+    '.line-thin{fill:none;stroke:#ffd700;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;}'+
+    '.line-med{fill:none;stroke:#ffd700;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}'+
+    '.robe-shape{fill:rgba(153,50,204,.12);stroke:#ffd700;stroke-width:1.4;stroke-linejoin:round;}'+
+    '.star-fill{fill:#ffd700;opacity:.95;}'+
+    '.card-label-numeral{font-family:Cinzel,serif;font-size:11px;fill:#ffd700;letter-spacing:2px;}'+
+    '.card-label-name{font-family:Cinzel,serif;font-size:9.5px;fill:#dcb8ff;letter-spacing:.6px;}'+
+    '.stone-shape{fill:url(#stoneGrad);stroke:#5a4a7a;stroke-width:1;}'+
+    '.stone-highlight{fill:rgba(255,255,255,.14);filter:blur(2px);}'+
+    '.stone-shadow{fill:rgba(0,0,0,.4);filter:blur(3px);}'+
+    '.stone-crack{stroke:rgba(0,0,0,.45);stroke-width:.8;fill:none;stroke-linecap:round;}'+
+    '.rune-carve-shadow{font-size:34px;fill:#000;opacity:.55;}'+
+    '.rune-carve-glow{font-size:34px;fill:#ffd700;filter:drop-shadow(0 0 4px #ffd700) drop-shadow(0 0 9px #9932cc);}';
+  document.head.appendChild(styleEl);
+}
+
+const state = { spread:null, cards:[], currentRune:null, ballAnswer:null };
+let tarotPicks = 0;
+let drawQueue = [];
+let shuffling = false;
+
+function showScreen(id){
+  $all('.screen').forEach(function(s){ s.classList.add('hidden'); });
+  const el = $('#'+id);
+  el.classList.remove('hidden');
+}
+
+function setAdvice(){ $('#advice-text').textContent = ADVICE[Math.floor(Math.random()*ADVICE.length)]; }
+
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const tmp = a[i]; a[i]=a[j]; a[j]=tmp;
+  }
+  return a;
+}
+
+function haptic(kind, style){
+  try{
+    if(window.Telegram && Telegram.WebApp && Telegram.WebApp.HapticFeedback){
+      if(kind==='impact') Telegram.WebApp.HapticFeedback.impactOccurred(style||'light');
+      if(kind==='notification') Telegram.WebApp.HapticFeedback.notificationOccurred(style||'success');
+    }
+  }catch(e){}
+}
+
+/* ===== TAROT ===== */
+function resetTarot(){
+  state.cards = [];
+  tarotPicks = 0;
+  drawQueue = [];
+  shuffling = false;
+  $('#tarot-final-btn').classList.add('hidden');
+  $('#tarot-instruction').classList.add('hidden');
+  $('#tarot-summary').classList.add('hidden');
+  $('#tarot-summary').innerHTML = '';
+  $('#tarot-pool').innerHTML = '';
+  $('#tarot-shuffle-btn').classList.remove('hidden');
+  $all('.tarot-slot').forEach(function(slot){
+    slot.querySelector('.slot-frame').outerHTML = '<div class="slot-frame"><span class="slot-index">'+(+slot.dataset.slot+1)+'</span></div>';
+    slot.querySelector('.slot-role').textContent = '';
+  });
+}
+
+function chooseSpread(spread){
+  state.spread = spread;
+  resetTarot();
+  $('#tarot-spread-title').textContent = SPREAD_TITLES[spread];
+  showScreen('screen-tarot-table');
+}
+
+function cardInnerHTML(card, flipped){
+  return '<div class="card-inner'+(flipped?' flipped':'')+'">'
+    + '<div class="card-face card-back"><svg class="card-art"><use href="#ic-cardback"></use></svg></div>'
+    + '<div class="card-face card-front"><svg class="card-art"><use href="#ic-'+card.id+'"></use></svg></div>'
+    + '</div>';
+}
+
+function buildPool(){
+  const pool = $('#tarot-pool');
+  pool.innerHTML = '';
+  const count = 7;
+  for(let i=0;i<count;i++){
+    const wrap = document.createElement('div');
+    wrap.className = 'tarot-card pool-card';
+    wrap.dataset.idx = i;
+    const tCenter = count===1 ? 0 : (i/(count-1)) - 0.5;
+    wrap.style.zIndex = String(200 - Math.round(Math.abs(tCenter)*100));
+    wrap.innerHTML = '<div class="card-inner"><div class="card-face card-back"><svg class="card-art"><use href="#ic-cardback"></use></svg></div><div class="card-face card-front"></div></div>';
+    wrap.addEventListener('click', function(){ pickCard(wrap); });
+    pool.appendChild(wrap);
+  }
+}
+
+function computeFanTransform(i, count){
+  const t = count===1 ? 0 : (i/(count-1)) - 0.5;
+  return { tx: t*340, ty: Math.abs(t)*18, rot: t*40 };
+}
+
+function runShuffle(){
+  if(shuffling) return;
+  shuffling = true;
+  $('#tarot-shuffle-btn').classList.add('hidden');
+  buildPool();
+  drawQueue = shuffleArray(ARCANA).slice(0,3);
+  const cards = Array.from($all('.pool-card'));
+  let doneCount = 0;
+  cards.forEach(function(el, i){
+    const target = computeFanTransform(i, cards.length);
+    el.style.setProperty('--sx0', (Math.random()*170-85)+'px');
+    el.style.setProperty('--sy0', (Math.random()*54-27)+'px');
+    el.style.setProperty('--sr0', (Math.random()*70-35)+'deg');
+    el.style.setProperty('--sx1', (Math.random()*190-95)+'px');
+    el.style.setProperty('--sy1', (Math.random()*54-27)+'px');
+    el.style.setProperty('--sr1', (Math.random()*80-40)+'deg');
+    el.style.setProperty('--sx2', (Math.random()*170-85)+'px');
+    el.style.setProperty('--sy2', (Math.random()*44-22)+'px');
+    el.style.setProperty('--sr2', (Math.random()*70-35)+'deg');
+    el.style.setProperty('--tx', target.tx+'px');
+    el.style.setProperty('--ty', target.ty+'px');
+    el.style.setProperty('--rot', target.rot+'deg');
+    el.classList.add('shuffling');
+    const onEnd = function(){
+      el.removeEventListener('animationend', onEnd);
+      doneCount++;
+      if(doneCount===cards.length){
+        shuffling = false;
+        $('#tarot-instruction').classList.remove('hidden');
+      }
+    };
+    el.addEventListener('animationend', onEnd);
+  });
+}
+
+function pickCard(el){
+  if(shuffling || tarotPicks>=3 || el.dataset.picked) return;
+  el.dataset.picked = '1';
+  haptic('impact','light');
+  const card = drawQueue[tarotPicks];
+  const role = SPREAD_ROLES[state.spread][tarotPicks];
+  const slot = $all('.tarot-slot')[tarotPicks];
+  const slotFrame = slot.querySelector('.slot-frame');
+  const srcRect = el.getBoundingClientRect();
+  const dstRect = slotFrame.getBoundingClientRect();
+
+  const fly = document.createElement('div');
+  fly.className = 'tarot-card fly-arc';
+  fly.style.position = 'fixed';
+  fly.style.left = srcRect.left+'px';
+  fly.style.top = srcRect.top+'px';
+  fly.style.width = srcRect.width+'px';
+  fly.style.height = srcRect.height+'px';
+  fly.style.margin = '0';
+  fly.style.zIndex = '999';
+  fly.innerHTML = cardInnerHTML(card, false);
+  document.body.appendChild(fly);
+
+  requestAnimationFrame(function(){
+    fly.style.transition = 'left .82s cubic-bezier(.3,.1,.15,1), top .82s cubic-bezier(.3,.1,.15,1), width .82s ease, height .82s ease';
+    fly.style.left = dstRect.left+'px';
+    fly.style.top = dstRect.top+'px';
+    fly.style.width = dstRect.width+'px';
+    fly.style.height = dstRect.height+'px';
+    setTimeout(function(){
+      fly.querySelector('.card-inner').classList.add('flipped');
+      haptic('impact','medium');
+    }, 300);
+  });
+
+  setTimeout(function(){
+    slotFrame.outerHTML = '<div class="slot-frame filled">'+cardInnerHTML(card, true)+'</div>';
+    slot.querySelector('.slot-role').textContent = role;
+    fly.remove();
+    state.cards.push({ id:card.id, name:card.name, role:role, meaning:card[state.spread] });
+    tarotPicks++;
+    $('#tarot-pick-count').textContent = tarotPicks;
+    if(tarotPicks===3){
+      renderSummary();
+      const btn = $('#tarot-final-btn');
+      btn.classList.remove('hidden');
+      haptic('notification','success');
+    }
+  }, 880);
+}
+
+function renderSummary(){
+  const box = $('#tarot-summary');
+  box.innerHTML = state.cards.map(function(c){
+    return '<div class="sum-line"><b>'+c.role+' — '+c.name+':</b> '+c.meaning+'</div>';
+  }).join('');
+  box.classList.remove('hidden');
+}
+
+function sendTarot(){
+  haptic('notification','success');
+  sendToBot({ tool:'tarot', spread:state.spread, cards: state.cards.map(function(c){ return { id:c.id, name:c.name, role:c.role }; }) });
+}
+
+/* ===== RUNES ===== */
+function resetRunes(){
+  state.currentRune = null;
+  $('#rune-result').classList.add('hidden');
+  $('#rune-result-text').classList.remove('show');
+  $('#rune-final-btn').classList.add('hidden');
+  $('#rune-draw-btn').classList.remove('hidden');
+  $('#rune-draw-btn').disabled = false;
+  const scene = $('#rune-scene');
+  scene.querySelectorAll('.stone-icon, .flame-burst').forEach(function(n){ n.remove(); });
+}
+
+function drawRune(){
+  if(state.currentRune) return;
+  $('#rune-draw-btn').classList.add('hidden');
+  const scene = $('#rune-scene');
+  const positions = [-46, 0, 46];
+  const stones = positions.map(function(offset){
+    const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s.setAttribute('class','stone-icon shake');
+    s.style.left = 'calc(50% + '+offset+'px - 32px)';
+    s.innerHTML = '<use href="#ic-stone-blank"></use>';
+    scene.appendChild(s);
+    return s;
+  });
+  haptic('impact','light');
+  setTimeout(function(){
+    const chosenIndex = Math.floor(Math.random()*3);
+    const rune = RUNES[Math.floor(Math.random()*RUNES.length)];
+    state.currentRune = rune;
+    stones.forEach(function(s, i){
+      s.classList.remove('shake');
+      if(i===chosenIndex){
+        s.style.left = 'calc(50% - 32px)';
+        s.style.top = '196px';
+        s.style.transform = 'rotate('+(Math.random()*30-15)+'deg)';
+      } else {
+        s.classList.add('discard');
+      }
+    });
+    setTimeout(function(){
+      const use = stones[chosenIndex].querySelector('use');
+      use.setAttribute('href', '#ic-stone-'+rune.id);
+      use.setAttributeNS('http://www.w3.org/1999/xlink','href', '#ic-stone-'+rune.id);
+      stones[chosenIndex].classList.add('landed');
+      const rect = stones[chosenIndex].getBoundingClientRect();
+      const sceneRect = scene.getBoundingClientRect();
+      const flame = document.createElement('div');
+      flame.className = 'flame-burst';
+      flame.style.left = (rect.left - sceneRect.left + rect.width/2)+'px';
+      flame.style.top = (rect.top - sceneRect.top + rect.height/2)+'px';
+      scene.appendChild(flame);
+      haptic('notification','success');
+      $('#rune-name').textContent = rune.char+'  '+rune.name;
+      $('#rune-meaning').textContent = rune.meaning;
+      $('#rune-result').classList.remove('hidden');
+      requestAnimationFrame(function(){ $('#rune-result-text').classList.add('show'); });
+      $('#rune-final-btn').classList.remove('hidden');
+      setTimeout(function(){ flame.remove(); }, 750);
+    }, 650);
+  }, 1150);
+}
+
+function sendRune(){
+  haptic('notification','success');
+  sendToBot({ tool:'runes', item_id: state.currentRune.id });
+}
+
+/* ===== BALL ===== */
+function resetBall(){
+  state.ballAnswer = null;
+  const orb = $('#ball-orb');
+  orb.classList.remove('surge');
+  $all('.smoke-blob').forEach(function(b){ b.classList.remove('parting','surging'); });
+  const tri = $('#ball-triangle');
+  tri.classList.remove('tri-reveal');
+  tri.style.opacity = 0;
+  tri.style.transform = 'translate(-50%,-50%) scale(.4)';
+  tri.textContent = '';
+  $('#ball-final-btn').classList.add('hidden');
+}
+
+function clickBall(){
+  if(state.ballAnswer) return;
+  const orb = $('#ball-orb');
+  orb.classList.add('surge');
+  $all('.smoke-blob').forEach(function(b){ b.classList.add('surging'); });
+  haptic('impact','medium');
+  setTimeout(function(){
+    $all('.smoke-blob').forEach(function(b){ b.classList.remove('surging'); b.classList.add('parting'); });
+    const answer = BALL_ANSWERS[Math.floor(Math.random()*BALL_ANSWERS.length)];
+    state.ballAnswer = answer;
+    const tri = $('#ball-triangle');
+    tri.textContent = answer.text;
+    tri.style.opacity = '';
+    tri.style.transform = '';
+    tri.classList.add('tri-reveal');
+    haptic('notification','success');
+    $('#ball-final-btn').classList.remove('hidden');
+  }, 950);
+}
+
+function sendBall(){
+  haptic('notification','success');
+  sendToBot({ tool:'ball', item_id: state.ballAnswer.id });
+}
+
+function sendToBot(payload){
+  try{
+    if(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.sendData){
+      window.Telegram.WebApp.sendData(JSON.stringify(payload));
+      window.Telegram.WebApp.close();
+    } else {
+      console.log('sendData', payload);
+    }
+  }catch(e){ console.log('sendToBot error', e); }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  buildSprite();
+
+  try{
+    if(window.Telegram && window.Telegram.WebApp){
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+      tg.expand();
+      if(tg.setHeaderColor) tg.setHeaderColor('#05020a');
+      if(tg.setBackgroundColor) tg.setBackgroundColor('#05020a');
+    }
+  }catch(e){ console.log('telegram init error', e); }
+
+  setAdvice();
+  $('#advice-refresh').addEventListener('click', setAdvice);
+
+  $all('[data-tool]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const tool = btn.dataset.tool;
+      if(tool==='tarot'){ showScreen('screen-tarot-spread'); }
+      if(tool==='runes'){ resetRunes(); showScreen('screen-runes'); }
+      if(tool==='ball'){ resetBall(); showScreen('screen-ball'); }
+    });
+  });
+
+  $all('[data-spread]').forEach(function(btn){
+    btn.addEventListener('click', function(){ chooseSpread(btn.dataset.spread); });
+  });
+
+  $all('[data-back]').forEach(function(btn){
+    btn.addEventListener('click', function(){ showScreen('screen-menu'); });
+  });
+
+  $('#tarot-shuffle-btn').addEventListener('click', runShuffle);
+  $('#tarot-final-btn').addEventListener('click', sendTarot);
+  $('#rune-draw-btn').addEventListener('click', drawRune);
+  $('#rune-final-btn').addEventListener('click', sendRune);
+  $('#ball-orb').addEventListener('click', clickBall);
+  $('#ball-final-btn').addEventListener('click', sendBall);
+});
+</script>
+</body>
+</html>
