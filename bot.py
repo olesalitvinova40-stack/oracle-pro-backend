@@ -8,7 +8,7 @@ from aiogram.types import WebAppInfo, PreCheckoutQuery, LabeledPrice
 from openai import AsyncOpenAI
 
 # 1. ТОЧНАЯ НАСТРОЙКА ДАННЫХ ПРОЕКТА
-API_TOKEN = os.getenv("BOT_TOKEN", "" '
+API_TOKEN = os.getenv("BOT_TOKEN", ""
 WEBAPP_URL = 'https://tiiny.site'
 
 # Считываем ключ OpenAI из настроек сервера в целях безопасности
